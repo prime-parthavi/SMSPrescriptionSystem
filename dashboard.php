@@ -22,12 +22,12 @@ if(isset($_POST['adddrug'])){
 	} else {
 		echo "Error: " . $sql . "<br>" . $conn->error;
 
-			echo '<div class="alert alert-dismissible alert-error">
-			<button type="button" class="close" data-dismiss="alert">x</button>
-			Error while creating record
-		</div>';
-	}
-	$conn->close();
+		echo '<div class="alert alert-dismissible alert-error">
+		<button type="button" class="close" data-dismiss="alert">x</button>
+		Error while creating record
+	</div>';
+}
+$conn->close();
 
 }else if($name != " " && $medical == " "){
 		 //check if the post includes the name and medical name is abscent
@@ -44,7 +44,7 @@ if(isset($_POST['adddrug'])){
 }
 
 }elseif (isset($_POST["addpresc"])) {
-    $drug_id = $_POST["drug_id"];
+	$drug_id = $_POST["drug_id"];
 	$age = $_POST['age'];
 	$prescription = $_POST['presc'];
 	$num_of_tabs = $_POST['num_of_tabs'];
@@ -52,8 +52,8 @@ if(isset($_POST['adddrug'])){
 
 	$period = 24/$arr[2];
 	echo $period;
-    if($drug_id != ""){
-    	$sql = "INSERT INTO prescription (id, drug_id ,age,prescription,period,num_of_tabs )
+	if($drug_id != ""){
+		$sql = "INSERT INTO prescription (id, drug_id ,age,prescription,period,num_of_tabs )
 		VALUES ('', $drug_id, $age,'$prescription',$period, $num_of_tabs)";
 
 		if ($conn->query($sql) === TRUE) {
@@ -65,18 +65,23 @@ if(isset($_POST['adddrug'])){
 	} else {
 		echo "Error: " . $sql . "<br>" . $conn->error;
 
-			echo '<div class="alert alert-dismissible alert-error">
-			<button type="button" class="close" data-dismiss="alert">x</button>
-			Error while creating record
-		</div>';
-	}
-	$conn->close();
-    }
+		echo '<div class="alert alert-dismissible alert-error">
+		<button type="button" class="close" data-dismiss="alert">x</button>
+		Error while creating record
+	</div>';
+}
+$conn->close();
+}
 
 }	
 
 
-
+if(isset($_GET["msg"])){
+	$msg  = $_GET["msg"];
+	echo '<div class="alert alert-dismissible alert-success">
+	<button type="button" class="close" data-dismiss="alert">x</button>
+	'.$msg.' </div>';
+}
 
 ?>
 

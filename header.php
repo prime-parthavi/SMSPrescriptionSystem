@@ -44,7 +44,7 @@ error_reporting(-1)
 </head>
 <body>
 
-  <div class="navbar navbar-default" style="font-size:1.3em; font-weight:bold; heigh:30px;">
+  <div class="navbar navbar-default" style="font-size:1.1em; font-weight:bold; heigh:30px;">
     <div class="navbar-header">
       <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-inverse-collapse">
         <span class="icon-bar"></span>

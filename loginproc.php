@@ -5,27 +5,22 @@ session_start();
 
 // Include database connection settings
 include('include/config.inc');
+//protect from mysql injection
 
 $myusername= mysql_real_escape_string($_POST['username']);
 $mypassword=mysql_real_escape_string(md5($_POST['password'])) ;
+//create a select query
+$sql = "SELECT * FROM admin WHERE username = '$myusername' && password = '$mypassword'";
+$result = mysqli_query($conn, $sql);
 
-//To protect MySQL injection (more detail about MySQL injection)
-// Retrieve username and password from database according to user's input
-$login = mysql_query("SELECT * FROM admin WHERE `username` = '$myusername' && `password` = '$mypassword'");
-
-// Check username and password match
-$checked=mysql_fetch_array($login);
-if ($checked>0) {
-// Set username session variable
-$_SESSION['username'] = $_POST['username'];
-// Jump to secured page
-header('Location:dashboard.php?$msg="Welcome to you Admin Dashboard"');
+if (mysqli_num_rows($result) > 0) {
+    // start session
+    $_SESSION['username'] = $_POST['username'];
+    header('Location:dashboard.php?msg="Welcome to you Admin Dashboard"');
+} else {
+    header('Location:index.php?msg="Wrong username or password"');
 }
-else {
-// Jump to login page
-header('Location:dashboard.php?$msg="Welcome to you Admin Dashboard"');
 
- 
-}
 
 ?>
+
