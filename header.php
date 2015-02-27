@@ -73,7 +73,7 @@ error_reporting(-1)
     <?php
 
 // Inialize session
-
+// Check, if username session is NOT set then this page will jump to login page
     if(!isset($_SESSION['username'])){
 
      echo '<li class="dropdown"  data-toggle="tab">
@@ -91,9 +91,9 @@ error_reporting(-1)
   </li>';
 }else{
  echo "<li><a href='dashboard.php'>Dashboard </a></li>";
- echo "<li><a href='include/logout.php'>Log out</li>";
+
+ echo "<li><a href='include/logout.php'>Log out</a></li>";
 }
-// Check, if username session is NOT set then this page will jump to login page
 ?>
 </ul>
 </div>

@@ -1,33 +1,54 @@
-<?php include("header.php");
-include("include/config.inc");
+<?php
+
+// Inialize session
+session_start();
+//check if user is logged in
+if(!isset($_SESSION['username'])){
+	//if user aint logged in redirect to the index page with
+	header("Location:index.php?msg='login please!!'");
+}else{
+
+	//if user is logged in load the rest of the page 
+	$username =  $_SESSION['username'];
+	include("header.php");
+	include("include/config.inc");
  //select the drugs in the system
-$sql = "SELECT * FROM drugs";
+	$sql = "SELECT * FROM drugs";
+	$age_sql = "SELECT * FROM Age_ranges";
 //declare global variables
-global $row, $result;
-$result = mysqli_query($conn, $sql);
-if(isset($_POST['adddrug'])){
-	$name = $_POST["name"];
-	$medical = $_POST["medical"];
+	global $row, $result,$age_range,$age_result;
+	$result = mysqli_query($conn, $sql);
+	$age_result = mysqli_query($conn,$age_sql);
+
+
+
+
+	if(isset($_POST['adddrug'])){
+		$name = $_POST["name"];
+		$medical = $_POST["medical"];
 		 //check if the post includes the name and medical name
-	if($name != " " && $medical !=" "){
-		$sql = "INSERT INTO drugs (id, name , medical)
-		VALUES ('', '$name', '$medical')";
+		if($name != " " && $medical !=" "){
+			$sql = "INSERT INTO drugs (id, name , medical)
+			VALUES ('', '$name', '$medical')";
 
-		if ($conn->query($sql) === TRUE) {
-			
-			echo '<div class="alert alert-dismissible alert-success">
+			if ($conn->query($sql) === TRUE) {
+
+				echo '<div class="alert alert-dismissible alert-success">
+				<button type="button" class="close" data-dismiss="alert">x</button>
+				New record created successfully
+			</div>';
+			$page = $_SERVER['PHP_SELF'];
+			$sec = "1";
+			header("Refresh: $sec; url=$page");
+		} else {
+			echo "Error: " . $sql . "<br>" . $conn->error;
+
+			echo '<div class="alert alert-dismissible alert-error">
 			<button type="button" class="close" data-dismiss="alert">x</button>
-			New record created successfully
+			Error while creating record
 		</div>';
-	} else {
-		echo "Error: " . $sql . "<br>" . $conn->error;
-
-		echo '<div class="alert alert-dismissible alert-error">
-		<button type="button" class="close" data-dismiss="alert">x</button>
-		Error while creating record
-	</div>';
-}
-$conn->close();
+	}
+	$conn->close();
 
 }else if($name != " " && $medical == " "){
 		 //check if the post includes the name and medical name is abscent
@@ -45,7 +66,7 @@ $conn->close();
 
 }elseif (isset($_POST["addpresc"])) {
 	$drug_id = $_POST["drug_id"];
-	$age = $_POST['age'];
+	$age_range = $_POST['age_range'];
 	$prescription = $_POST['presc'];
 	$num_of_tabs = $_POST['num_of_tabs'];
 	$arr = str_split($prescription);
@@ -53,8 +74,8 @@ $conn->close();
 	$period = 24/$arr[2];
 	echo $period;
 	if($drug_id != ""){
-		$sql = "INSERT INTO prescription (id, drug_id ,age,prescription,period,num_of_tabs )
-		VALUES ('', $drug_id, $age,'$prescription',$period, $num_of_tabs)";
+		$sql = "INSERT INTO prescription (id, drug_id ,age_range,prescription,period,num_of_tabs )
+		VALUES ('', $drug_id, $age_range,'$prescription',$period, $num_of_tabs)";
 
 		if ($conn->query($sql) === TRUE) {
 			
@@ -141,8 +162,16 @@ if(isset($_GET["msg"])){
 								</div>
 							</div>
 							<div class="form-group">
-								<label class="control-label" for="inputDefault">Age</label>
-								<input class="form-control" style="margin-bottom: 15px; width:250px;" id="inputDefault" name="age" type="text">
+								<label class="control-label" for="inputDefault">Select Age Group</label>
+								<div class="form-group"  style="margin-bottom: 15px; width:250px;">
+									<select class="form-control"  name="age_range" id="select">
+										<?php
+										while($row = mysqli_fetch_row($age_result)){
+											echo "<option value = ". $row[0].">".$row[1]."</option >";
+										}
+										?>
+									</select>
+								</div>
 							</div>
 							<div class="form-group">
 								<label class="control-label" for="inputDefault">Number of Tabs</label>
@@ -191,4 +220,4 @@ if(isset($_GET["msg"])){
 </tr>
 
 </table>
-<?php include("include/footer.php"); ?>
+<?php include("include/footer.php"); } ?>
