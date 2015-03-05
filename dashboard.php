@@ -2,6 +2,7 @@
 
 // Inialize session
 session_start();
+error_reporting(0);
 //check if user is logged in
 if(!isset($_SESSION['username'])){
 	//if user aint logged in redirect to the index page with
