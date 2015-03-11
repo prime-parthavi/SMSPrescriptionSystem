@@ -67,9 +67,7 @@ error_reporting(-1)
   </ul>
 
   <ul class="nav navbar-nav navbar-right">
-    <form class="navbar-form navbar-left" action="rent.php" method="post">
-      <input class="form-control col-lg-8" placeholder="Search by Location" type="text" name="location">
-    </form>
+   
     <?php
 
 // Inialize session

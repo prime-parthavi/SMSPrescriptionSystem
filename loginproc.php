@@ -8,7 +8,7 @@ include('include/config.inc');
 //protect from mysql injection
 
 $myusername= mysql_real_escape_string($_POST['username']);
-$mypassword=mysql_real_escape_string(md5($_POST['password'])) ;
+$mypassword= mysql_real_escape_string(md5($_POST['password']));
 //create a select query
 $sql = "SELECT * FROM admin WHERE username = '$myusername' && password = '$mypassword'";
 $result = mysqli_query($conn, $sql);
