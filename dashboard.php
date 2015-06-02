@@ -197,28 +197,7 @@ if(isset($_GET["msg"])){
 	</td>
 
 </tr>
-<tr>
-	<td>
-		<div class="panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title">Panel info</h3>
-			</div>
-			<div class="panel-body">
-				Panel content
-			</div>
-		</div>
-	</td>
-	<td>
-		<div class="panel-primary">
-			<div class="panel-heading">
-				<h3 class="panel-title">Panel info</h3>
-			</div>
-			<div class="panel-body">
-				Panel content
-			</div>
-		</div>
-	</td>
-</tr>
+
 
 </table>
 <?php include("include/footer.php"); } ?>

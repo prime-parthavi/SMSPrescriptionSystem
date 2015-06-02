@@ -2,7 +2,7 @@
 
 include "include/errorfunc.php";
 $sender = $_GET['sender'];  //gets the senders number form smsc
-$msg =    $_GET['text'];
+$msg =    $_GET['text'];   //keyword namedrug age    || presc panadol 4
 
 if(strlen($sender) > 5 && $msg != " "){
 	$a = explode(" ", $msg);    
@@ -25,9 +25,9 @@ if(strlen($sender) > 5 && $msg != " "){
 					echo  $age ." is not a correct age value";
 					exit();
 				}
-
+						//the id for the age_group
 				$age_range_id = mysqli_fetch_row($age_q);
-
+				//query to select the drug name
 				$drug_q = mysqli_query($conn, "SELECT * FROM `drugs` WHERE `Name` = '$drug' || `medical` = '$drug'");
 			//check if mysql returns any value
 				if(mysqli_num_rows($drug_q) < 1){
@@ -38,8 +38,10 @@ if(strlen($sender) > 5 && $msg != " "){
 				}
 
 				$drug_id = mysqli_fetch_row($drug_q);
-				$d_id = $drug_id[0];
-				$age_g = $age_range_id[0];
+				//variable assigment for values from the database
+				$d_id = $drug_id[0];   //drug id
+				$age_g = $age_range_id[0]; //the age group id
+				//prescription query
 				$sql = mysqli_query($conn, "SELECT `prescription`, `period` FROM `prescription`WHERE `drug_id` ='$d_id' AND `age_range` ='$age_g'")or die($conn->error);
 				if($conn->error){
 			//call mysql system function to display error;
@@ -48,6 +50,7 @@ if(strlen($sender) > 5 && $msg != " "){
 					echo  "OOOPs something went wrong with your request, please try again later";
 					exit();
 				}
+				//loop through all the values returned using a while loop
 				while($presc = mysqli_fetch_row($sql)){			
 					echo $drug_id[1]. " prescription for a ".$age." year old ".$presc[0];
 					$t = intval($presc[1])*60*60; 			
@@ -197,7 +200,7 @@ if(strlen($sender) > 5 && $msg != " "){
 				}
 
 			}//end 15 below
-			elseif ($age >= 16) {
+			elseif (16 <= $age && $age<= 1000) {
        	# code...
 				$age_range = "over 16";
 				$age_q= mysqli_query($conn,  "SELECT * FROM `Age_ranges` WHERE `age_groups`= '$age_range '");
@@ -251,7 +254,7 @@ if(strlen($sender) > 5 && $msg != " "){
 
 	}else{
 	//if any required field is empty
-		echo "Request missing required fields. format is 'presc[space]drugname[space]age'";
+		echo "Request, missing required fields. format is 'presc[space]drugname[space]age'";
 
 	}
 }else{

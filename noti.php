@@ -1,9 +1,10 @@
 <?php
 include 'include/config.inc';
 //*****Notification section**************//
-
-//Executed by the crontab every second of every minute of every hour and every day
-//* * * * * /usr/local/bin/php /var/www/html/smsprescription/noti.php
+include "include/errorfunc.php";	
+while (1) {
+	# code...
+	echo " Robert <br />";
 			$currentime = time();
 			$noti = "SELECT `ntime`, `dnumber`, `message` FROM notification WHERE `ntime`= '$currentime'";
 			$action = mysqli_query($conn, $noti);
@@ -30,5 +31,6 @@ include 'include/config.inc';
 						$mysqli->commit();
 					}
 				}
+			}
 //*****End Notification section***********//
 ?>
